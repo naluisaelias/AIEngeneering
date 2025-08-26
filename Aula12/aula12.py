@@ -94,7 +94,10 @@ df.isnull().sum()  # Mostra valores faltantes por coluna
 # De que tipo são os dados (dtype)?
 df.dtypes
 
-"""## Analisando os dados mais a fundo"""
+"""## Analisando os dados mais a fundo
+São 150 exemplares de flor de íris, pertencentes a três espécies diferentes: **setosa**, **versicolor** e **virginica**, sendo 50 amostras de cada espécie. Os atributos de largura e comprimento de sépala e largura e comprimento de pétala de cada flor fooram medidos manualmente.
+
+"""
 
 # Retornar a descrição dos dados
 df.describe()
@@ -104,7 +107,18 @@ df.species.unique()
 
 """## Analisando informações com gráficos
 
-### Box and Whisker Plots
+### Gráfico de Barras
+"""
+
+species_count = df['species'].value_counts()
+species_count.plot(kind='bar')
+
+plt.title('Contagem de Espécies')
+plt.xlabel('Espécie')
+plt.ylabel('Contagem')
+plt.show()
+
+"""### Box and Whisker Plots
 Tipo de gráfico usado para resumir a distribuição de dados e identificar padrões.
 #### Elementos do boxplot:
 * **Caixa (box):** Representa o intervalo interquartil (IQR) -> vai do 1º quartil (Q1) ao 3º quartil (Q3). 50% dos dados estão dentro dessa caixa.
@@ -169,7 +183,7 @@ Tipo especial de gráfico que gera vários gráficos de dispersão e histogramas
 sns.pairplot(
     df, # Dados a serem plotados
     hue='species', # Colorir os pontos de acordo com a categoria
-    height=2.5 # Altura de cada gráfico
+    height=1.5 # Altura de cada gráfico
     )
 
 plt.show()
