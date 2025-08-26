@@ -25,14 +25,32 @@ header = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species
 # Lê e carrega o arquivo para a memória
 df = pd.read_csv(url, header=None, names=header)
 
+# Retorna os nomes das colunas de um DataFrame
 df.keys()
 
+# Mostra as primeiras 5 linhas do DataFrame
+df.head()
+
+# Mostra as últimas 5 linhas do DataFrame
 df.tail()
 
+# Exibe um resumo sobre o DataFrame:
+# - Número de entradas;
+# - Nomes das colunas;
+# - Tipo de dados de cada coluna;
+# - Número de valores não nulos em cada coluna.
+df.info()
+
+# Agrupa o DataFrame pela coluna 'species' e conta o número de ocorrências em cada grupo.
 df.groupby('species').size()
 
+# Cria um DataFrame chamado entradas contendo apenas as colunas 'petal_length' e 'petal_width' do DataFrame original
 entradas = df[['petal_length', 'petal_width']]
+
+# Cria uma série chamada 'classes' com os valores da coluna 'species'do DataFrame original.
 classes = df['species']
+
+# Exibe as dimensões (número de linhas e colunas) de entradas e o número de linhas de classes.
 print(f"Formato das tabelas de dados {entradas.shape} e classes {classes.shape}")
 
 """## Dividindo os dados em conjunto de treinamento e de testes
@@ -53,3 +71,37 @@ from sklearn.model_selection import train_test_split
 entradas_treino, entradas_teste, classes_treino, classes_teste = train_test_split(entradas, classes, test_size=0.2)
 
 print(f"Formato das tabelas de dados de treino {entradas_treino.shape} e teste {entradas_teste.shape}")
+
+# Primeiras linhas do dataframe
+entradas_treino.head(20)
+
+# Exibe os primeiros 5 rótulos de classe do conjunto de dados de treino
+classes_treino.head()
+
+# Importa a biblioteca
+from sklearn.neighbors import KNeighborsClassifier
+
+# Cria o classificar KNN
+k = 3
+modelo = KNeighborsClassifier(n_neighbors=k)
+
+# Cria o modelo de machine learning
+modelo.fit(entradas_treino, classes_treino)
+
+# Para obter as previsões, basta chamar o método predict()
+classes_encontradas = modelo.predict(entradas_teste)
+print("Predição: {}".format(classes_encontradas))
+
+# Para determinar a quantidade de acertos (acuracia)
+
+from sklearn.metrics import accuracy_score
+acertos = accuracy_score(classes_teste, classes_encontradas)
+print("Acerto médio de classificação: ", acertos)
+
+# Exemplo 1
+modelo.predict([[8.5, 4.0]])
+
+# Exemplo 2
+Test = pd.DataFrame([[10.0, 3.5]], columns=['petal_length', 'petal_width'])
+previsao = modelo.predict(Test)
+print("Previsão:", previsao)
